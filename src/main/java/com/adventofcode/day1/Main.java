@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
@@ -21,13 +22,26 @@ public class Main {
         System.out.println("Left list:" +  leftList);
         System.out.println("Right list:" +  rightList);
 
-        int result = 0;
+        int totalDistance = 0;
+        int similarityScore = 0;
+
 
         for (int i = 0; i < leftList.size(); i++) {
             int difference = Math.max(leftList.get(i), rightList.get(i)) - Math.min(leftList.get(i), rightList.get(i));
-            result+=difference;
+            totalDistance+=difference;
         }
-        System.out.println("result: " + result);
+        System.out.println("total distance: " + totalDistance);
+
+        for (int i = 0; i < leftList.size(); i++) {
+            for (int j = 0; j < leftList.size(); j++) {
+                int occurence = 0;
+                if (Objects.equals(leftList.get(i), rightList.get(j))) {
+                    occurence++;
+                }
+                similarityScore+=leftList.get(i) * occurence;
+            }
+        }
+        System.out.println("similarity score: " + similarityScore);
     }
 
     public static void readListsFromInputFile(List<Integer> leftList, List<Integer> rightList) {
