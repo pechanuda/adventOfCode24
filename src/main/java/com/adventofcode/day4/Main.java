@@ -17,6 +17,7 @@ public class Main {
 
 //        File file = new File("src/main/resources/input4part1-demo2.txt");
 //        File file = new File("src/main/resources/input4part1-demo.txt");
+//        File file = new File("src/main/resources/input4part2-demo.txt");
         File file = new File("src/main/resources/input4part1.txt");
 
         int result = 0;
@@ -29,14 +30,46 @@ public class Main {
             lines.add(sc.nextLine());
         }
 
-        result += horizontal(getScanner(file));
-        result += countVertical(lines, X, M, A, S);
-        result += countVertical(lines, S, A, M, X);
-        result += countDiagonalDown(lines, X, M, A, S);
-        result += countDiagonalDown(lines, S, A, M, X);
-        result += countDiagonalUp(lines, X, M, A, S);
-        result += countDiagonalUp(lines, S, A, M, X);
+        // part 2
+
+        result += countX(lines, M, M, S, S);
+        result += countX(lines, M, S, M, S);
+        result += countX(lines, S, M, S, M);
+        result += countX(lines, S, S, M, M);
         System.out.println("total result: " + result);
+
+
+//        // part 1
+//        result += horizontal(getScanner(file));
+//        result += countVertical(lines, X, M, A, S);
+//        result += countVertical(lines, S, A, M, X);
+//        result += countDiagonalDown(lines, X, M, A, S);
+//        result += countDiagonalDown(lines, S, A, M, X);
+//        result += countDiagonalUp(lines, X, M, A, S);
+//        result += countDiagonalUp(lines, S, A, M, X);
+//        System.out.println("total result: " + result);
+    }
+
+    private static int countX(List<String> lines, char upperLeft, char upperRight, char lowerLeft, char lowerRight) {
+        int result = 0;
+
+        for (int i = 0; i < lines.size() - 2; i++) {
+            for (int j = 0; j < lines.get(i).length() - 2; j++) {
+                if (lines.get(i).charAt(j) == upperLeft) {
+                    if (lines.get(i + 1).charAt(j + 1) == A) {
+                        if (lines.get(i).charAt(j + 2) == upperRight) {
+                            if (lines.get(i + 2).charAt(j + 2) == lowerRight) {
+                                if (lines.get(i + 2).charAt(j) == lowerLeft) {
+                                    result++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("result x with upper left " + upperLeft + " and upper right " + upperRight + ": " + result);
+        return result;
     }
 
     private static int countVertical(List<String> lines, char one, char two, char three, char four) {
