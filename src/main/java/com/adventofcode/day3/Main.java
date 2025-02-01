@@ -2,18 +2,26 @@ package com.adventofcode.day3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
 
-    // part 1
+    // part 2
     public static void main(String[] args) {
+
+        // extenuating circumstances
+        // I've removed all spaces and newlines from the input file. The regex didn't like it. Inconsistent with behavior in regex101 (maybe different flavor?)
 
         File file = new File("src/main/resources/inputday3.txt");
 //        File file = new File("src/main/resources/inputday3-demo.txt");
-        Pattern pattern = Pattern.compile("mul\\(\\d\\d?\\d?\\,\\d\\d?\\d?\\)");
+//        File file = new File("src/main/resources/inputday3-extra.txt");
+//        File file = new File("src/main/resources/inputday3-demo-part2.txt");
+
+        Pattern newPattern = Pattern.compile("do\\(\\)((?:(?!don't\\().)+)");
+        Pattern mulPattern = Pattern.compile("mul\\(\\d\\d?\\d?\\,\\d\\d?\\d?\\)");
 
         int result = 0;
         Scanner sc;
@@ -25,14 +33,24 @@ public class Main {
 
         while (sc.hasNext()) {
             String s = sc.next();
-            Matcher matcher = pattern.matcher(s);
+
+            Matcher matcher = newPattern.matcher(s);
+
             while (matcher.find()) {
-                String mul = matcher.group(0);
-                String[] operands = mul.split(",");
-                String a = operands[0].substring(4);
-                String b = operands[1].substring(0, operands[1].length() - 1);
-                result += mul(Integer.parseInt(a),Integer.parseInt(b));
+                String mulUntilDont = matcher.group(0);
+                System.out.println("mulUntilDont: " + mulUntilDont);
+                Matcher mulMatcher = mulPattern.matcher(mulUntilDont);
+
+                while (mulMatcher.find()) {
+                    String mul = mulMatcher.group(0);
+                    System.out.println("mul: " + mul);
+                    String[] operands = mul.split(",");
+                    String a = operands[0].substring(4);
+                    String b = operands[1].substring(0, operands[1].length() - 1);
+                    result += mul(Integer.parseInt(a),Integer.parseInt(b));
+                }
             }
+
         }
 
         System.out.println("result: " + result);
