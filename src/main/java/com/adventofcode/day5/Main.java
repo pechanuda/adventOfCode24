@@ -22,6 +22,12 @@ public class Main {
     static Map<Integer, String[]> mapOfOrdersWithIncorrectOrder = new HashMap<>();
     static boolean areAllFixed = false;
 
+    // Takeways:
+    /* *
+    * Collections.shuffle(linesOfOrderRules); -> get random order of a collection
+    * some shenanigans with map and set - can use set to get rid of duplicates
+    */
+
     public static void main(String[] args) {
 
         File file = new File("src/main/resources/input5part1.txt");
